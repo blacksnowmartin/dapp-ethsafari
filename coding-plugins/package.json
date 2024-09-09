@@ -1,0 +1,18 @@
+{
+  "name": "ethsafari-workshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@namespace-ens/web3-plugin-ens": "^1.0.9",
+    "@swisstronik/web3-plugin-swisstronik": "^1.5.1",
+    "web3": "^4.12.1",
+    "web3-plugin-zksync": "^1.0.6"
+  }
+}
