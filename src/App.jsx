@@ -1,69 +1,74 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState, useEffect } from "react";
 import "./App.css";
-// import modules
 import { Web3 } from "web3";
 import { ORAPlugin, Models, Chain } from "@ora-io/web3-plugin-ora";
+import { ZKsyncPlugin } from "web3-plugin-zksync";
 
 function App() {
   const [fees, setFees] = useState("0 fees");
-  const [account, setAccount] = useState("no account");
-  const [txHash, setTxHash] = useState("no hash");
-  const [result, setResult] = useState("no hash");
+  const [account, setAccount] = useState("Not connected");
+  const [txHash, setTxHash] = useState("No hash");
+  const [result, setResult] = useState("No result");
+  const [story, setStory] = useState('');
+  const [quality, setQuality] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // initialize provider
   const web3 = new Web3(window.ethereum);
-
-  // register plugin
   web3.registerPlugin(new ORAPlugin(Chain.SEPOLIA));
+  web3.registerPlugin(new ZKsyncPlugin("https://sepolia.era.zksync.dev"))
+  ;
 
-  //use plugin
+  useEffect(() => {
+    connectWallet();
+  }, []);
+
+  async function connectWallet() {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      setAccount(accounts[0]);
+    } catch (error) {
+      console.error("Failed to connect wallet:", error);
+    }
+  }
+
   async function sendPrompt() {
-    const PROMPT = "create an image of an apple with a tree";
+    const PROMPT = `Rate the quality of the following story on a scale of 1 to 10, and provide a brief explanation: "${story}"`;
 
-    //  ORA estimate fees
     const fees = await web3.ora.estimateFee(Models.OPENLM);
     setFees(fees.toString());
 
-    // connect wallet
-    const accounts = await web3.eth.requestAccounts();
-    setAccount(accounts[0]);
-
-    // ORA send the prompt
-    const txReceipt = await web3.ora.calculateAIResult(accounts[0], Models.OPENLM, PROMPT, fees);
+    const txReceipt = await web3.ora.calculateAIResult(account, Models.OPENLM, PROMPT, fees);
     setTxHash(txReceipt.transactionHash);
   }
 
   async function fetchResult() {
-    // ORA fetch result
-    const PROMPT = "create an image of an apple with a tree";
-
+    const PROMPT = `Rate the quality of the following story on a scale of 1 to 10, and provide a brief explanation: "${story}"`;
     const result = await web3.ora.getAIResult(Models.OPENLM, PROMPT);
     setResult(result);
   }
 
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Fees: {fees}</p>
+      <h1>ZKSync Story Quality Checker</h1>
       <p>Account connected: {account}</p>
-      <p>Tx Hash {txHash}</p>
+      <p>Fees: {fees}</p>
+      <p>Tx Hash: {txHash}</p>
       <p>Result AI: {result}</p>
-      <button onClick={sendPrompt}>Send prompt to ORA</button>
-      <button onClick={fetchResult}>Fetch result from ORA</button>
-      <div className="card"></div>
+      
+      <div className="story-quality-checker">
+        <textarea
+          value={story}
+          onChange={(e) => setStory(e.target.value)}
+          placeholder="Enter your story here..."
+          rows={10}
+          cols={50}
+        />
+        <button onClick={sendPrompt} disabled={account === "Not connected"}>Send story to ORA</button>
+        <button onClick={fetchResult} disabled={account === "Not connected"}>Fetch result from ORA</button>
+      </div>
     </>
   );
 }
 
 export default App;
+
