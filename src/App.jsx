@@ -62,7 +62,7 @@ function App() {
       } else {
         clearInterval(typeInterval);
       }
-    }, 50); // 20 characters per second = 50ms per character
+    }, 150); // 20 characters per second = 50ms per character
   }
 
   return (
