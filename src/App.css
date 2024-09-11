@@ -6,7 +6,9 @@
 }
 
 .logo {
-  height: 6em;
+  width: 40vw; /* 40% of the viewport width */
+  max-width: 400px; /* Maximum width to prevent it from becoming too large on big screens */
+  height: auto; /* Maintain aspect ratio */
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;

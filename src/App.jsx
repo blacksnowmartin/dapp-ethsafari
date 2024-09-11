@@ -3,6 +3,7 @@ import "./App.css";
 import { Web3 } from "web3";
 import { ORAPlugin, Models, Chain } from "@ora-io/web3-plugin-ora";
 import { ZKsyncPlugin } from "web3-plugin-zksync";
+import logo from "./assets/logo.png";
 
 function App() {
   const [fees, setFees] = useState("0 fees");
@@ -49,7 +50,8 @@ function App() {
 
   return (
     <>
-      <h1>ZKSync Story Quality Checker</h1>
+      <img src={logo} alt="SafariTalesScales Logo" className="logo" />
+      <h1>SafariTalesScales</h1>
       <p>Account connected: {account}</p>
       <p>Fees: {fees}</p>
       <p>Tx Hash: {txHash}</p>
