@@ -42,3 +42,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.result-display {
+  white-space: pre-wrap;
+  text-align: left;
+  background-color: #f0f0f0;
+  padding: 1em;
+  border-radius: 5px;
+  max-width: 80%;
+  margin: 1em auto;
+  overflow-wrap: break-word;
+}
