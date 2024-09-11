@@ -11,6 +11,15 @@ Currently, two official plugins are available:
 
 To get started fast way
 ```bash
+git clone https://github.com/blacksnowmartin/dapp-ethsafari
+```
+Then
+```bash
+cd dapp-ethsafari
+```
+Follow by
+
+```bash
 npm i web3
 ```
 
@@ -22,5 +31,9 @@ npm i @swisstronik/web3-plugin-swisstronik
 ```
 ```bash
 npm i web3-plugin-zksync
+```
+To run
+```bash
+npm run dev
 ```
 
