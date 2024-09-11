@@ -23,7 +23,7 @@ function App() {
     const PROMPT = "create an image of an apple with a tree";
 
     //  ORA estimate fees
-    const fees = await web3.ora.estimateFee(Models.STABLE_DIFFUSION);
+    const fees = await web3.ora.estimateFee(Models.OPENLM);
     setFees(fees.toString());
 
     // connect wallet
@@ -31,7 +31,7 @@ function App() {
     setAccount(accounts[0]);
 
     // ORA send the prompt
-    const txReceipt = await web3.ora.calculateAIResult(accounts[0], Models.STABLE_DIFFUSION, PROMPT, fees);
+    const txReceipt = await web3.ora.calculateAIResult(accounts[0], Models.OPENLM, PROMPT, fees);
     setTxHash(txReceipt.transactionHash);
   }
 
@@ -39,7 +39,7 @@ function App() {
     // ORA fetch result
     const PROMPT = "create an image of an apple with a tree";
 
-    const result = await web3.ora.getAIResult(Models.STABLE_DIFFUSION, PROMPT);
+    const result = await web3.ora.getAIResult(Models.OPENLM, PROMPT);
     setResult(result);
   }
 
