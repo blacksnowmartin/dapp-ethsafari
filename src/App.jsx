@@ -17,6 +17,7 @@ function App() {
   const [typedResult, setTypedResult] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [displayedResult, setDisplayedResult] = useState("");
+  const [popupVisible, setPopupVisible] = useState(false);
 
   const web3 = new Web3(window.ethereum);
   web3.registerPlugin(new ORAPlugin(Chain.SEPOLIA));
@@ -49,7 +50,7 @@ function App() {
     setDisplayedResult(resultsText);
     
     setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+    setPopupVisible(true);
   }
 
   async function fetchResult() {
@@ -64,6 +65,10 @@ function App() {
       }
     }, 30); // 20 characters per second = 50ms per character
   }
+
+  const handleClosePopup = () => {
+    setPopupVisible(false);
+  };
 
   return (
     <>
@@ -88,10 +93,24 @@ function App() {
       </div>
       <div className="typed-result">
         <pre>{typedResult}</pre>
+<pre
+  className="result-display"
+  style={{
+    overflowY: "auto",
+    maxHeight: "300px", 
+    padding: "10px",
+    fontSize: "14px",
+    lineHeight: "1.5",
+  }}
+>
+  {displayedResult}
+</pre>
+
       </div>
-      {showPopup && (
+      {popupVisible && (
         <div className="popup">
           <p>Story sent</p>
+          <button onClick={handleClosePopup}>Close</button>
         </div>
       )}
     </>
